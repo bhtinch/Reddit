@@ -14,4 +14,20 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var postCellTitleLabel: UILabel!
     @IBOutlet weak var postCellUPSLabel: UILabel!
     
+    var post: Post? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    lazy var thumbnail = UIImage()
+    
+    func updateViews() {
+        guard let post = post else { return }
+        
+        postCellTitleLabel.text = post.data.title
+        postCellUPSLabel.text = String(post.data.ups)
+        postCellImageView.image = thumbnail
+    }
+    
 }
