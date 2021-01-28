@@ -9,7 +9,7 @@
 import UIKit
 
 class PostTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var postCellImageView: UIImageView!
     @IBOutlet weak var postCellTitleLabel: UILabel!
     @IBOutlet weak var postCellUPSLabel: UILabel!
@@ -19,15 +19,24 @@ class PostTableViewCell: UITableViewCell {
             updateViews()
         }
     }
-    
-    lazy var thumbnail = UIImage()
-    
+       
     func updateViews() {
         guard let post = post else { return }
         
         postCellTitleLabel.text = post.data.title
         postCellUPSLabel.text = String(post.data.ups)
-        postCellImageView.image = thumbnail
+        
+        PostController.fetchThumbnail(post: post) { (result) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let image):
+                    self.postCellImageView.image = image
+                case .failure(_):
+                    guard let imageNotAvailable = UIImage(named: "imageNotAvailable") else { return }
+                    self.postCellImageView.image = imageNotAvailable
+                }
+            }
+        }
     }
     
 }

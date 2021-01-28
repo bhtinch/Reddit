@@ -17,7 +17,7 @@ class PostController {
     //  dataTask URL
     //  decode JSON
     
-    static let baseURL = URL(string: "https://www.reddit.com/r/funny/")
+    static let baseURL = URL(string: "https://www.reddit.com/r/funny.json")
     
     static func fetchPosts(completion: @escaping (Result<[Post], PostError>) -> Void) {
         
@@ -39,7 +39,6 @@ class PostController {
             
             do {
                 let topLevelObject = try JSONDecoder().decode(TopLevelObject.self, from: data)
-                print("data decoded")
                 let secondLevelObject = topLevelObject.data
                 let posts = secondLevelObject.children
                 completion(.success(posts))
@@ -57,7 +56,6 @@ class PostController {
     static func fetchThumbnail(post: Post, completion: @escaping (Result<UIImage, PostError>) -> Void) {
         
         let thumbnailURL = post.data.thumbnail
-        print(thumbnailURL)
         
         URLSession.shared.dataTask(with: thumbnailURL) { (data, _, error) in
             if let error = error {

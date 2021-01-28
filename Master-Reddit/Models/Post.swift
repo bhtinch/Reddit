@@ -17,10 +17,10 @@ struct SecondLevelObject: Codable {
 }
 
 struct Post: Codable {
-    let data: postData
+    let data: PostData
 }
 
-struct postData: Codable {
+struct PostData: Codable {
     let title: String
     let ups: Int
     let thumbnail: URL
